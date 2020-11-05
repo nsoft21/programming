@@ -4,7 +4,8 @@
 
 using namespace std;
 
-double getValue(char a)
+double correctness(char a)
+//Проверка на корректность ввода
 {
 	while(true)
 	{
@@ -26,18 +27,18 @@ double getValue(char a)
 	}
 }
 
-float sidesArea() {
+float method1() {
 	double a, b, c, p, S;
-	a = getValue('a');
-	b = getValue('b');
-	c = getValue('c');
+	a = correctness('a');
+	b = correctness('b');
+	c = correctness('c');
 	p = (a + b + c) / 2;
 	S = sqrt(p*(p - a)*(p - b)*(p - c));
 	cout << "S = " << S << "\n";
 	return 0;
 }
 
-float coordinatesArea() {
+float method2() {
 	double x1, y1, x2, y2, x3, y3, A;
 	cout << "Введите три пары вещественных чисел, каждая пара в отдельной строке. \n";
 	cin >> x1 >> y1;
@@ -63,12 +64,12 @@ int main()
 		}
 		else if (input_method == 1) {
 			cin.ignore(32767, '\n');
-			sidesArea();
+			method1();
 			return 0;
 		}
 		else if (input_method == 2) {
 			cin.ignore(32767, '\n');
-			coordinatesArea();
+			method2();
 			return 0;
 		}
 	}

@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-double getValue()
+double correctness()
 {
 	while (true)
 	{
@@ -43,16 +43,16 @@ void printResult(double a, char sm, double b)
 {
 	switch (sm) {
 	case '+':
-		cout << a << " + " << b << " = " << a + b << '\n';
+		cout << a + b;
 		break;
 	case '-':
-		cout << a << " - " << b << " = " << a - b << '\n';
+		cout << a - b;
 		break;
 	case '*':
-		cout << a << " * " << b << " = " << a * b << '\n';
+		cout << a * b;
 		break;
 	case '/':
-		cout << a << " / " << b << " = " << a / b << '\n';
+		cout << a / b;
 		break;
 	default:
 		cout << "Неверный формат ввода.";
@@ -63,9 +63,9 @@ void printResult(double a, char sm, double b)
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	double a = getValue();
+	double a = correctness();
 	char sm = getOperator();
-	double b = getValue();
+	double b = correctness();
 	printResult(a, sm, b);
 	return 0;
 }
