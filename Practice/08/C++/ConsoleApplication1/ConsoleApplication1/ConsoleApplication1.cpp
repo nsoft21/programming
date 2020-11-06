@@ -1,19 +1,17 @@
-﻿#include "pch.h"
-#include <iostream>
-using namespace std;
+﻿#include <iostream>
 
 double correctness()
 {
 	while (true)
 	{
 		double a;
-		cin >> a;
+		std::cin >> a;
 
-		if (cin.fail())
+		if (std::cin.fail())
 		{
-			cin.clear();
-			cin.ignore(32767, '\n');
-			cout << "Неверный формат ввода. Введите число.\n";
+			std::cin.clear();
+			std::cin.ignore(32767, '\n');
+			std::cout << "Неверный формат ввода. Введите число.\n";
 		}
 		else
 		{
@@ -24,16 +22,16 @@ double correctness()
 
 char getOperator()
 {
-	while (true) 
+	while (true)
 	{
 		char sm;
-		cin >> sm;
+		std::cin >> sm;
 		if (sm == '+' || sm == '-' || sm == '*' || sm == '/') {
 			return sm;
 		}
 		else {
-			cin.clear();
-			cin.ignore(32767, '\n');
+			std::cin.clear();
+			std::cin.ignore(32767, '\n');
 			std::cout << "Неверный формат ввода. Выберите \"+\", \"-\" \"*\" или \"/\".\n";
 		}
 	}
@@ -43,19 +41,19 @@ void printResult(double a, char sm, double b)
 {
 	switch (sm) {
 	case '+':
-		cout << a + b;
+		std::cout << a + b;
 		break;
 	case '-':
-		cout << a - b;
+		std::cout << a - b;
 		break;
 	case '*':
-		cout << a * b;
+		std::cout << a * b;
 		break;
 	case '/':
-		cout << a / b;
+		std::cout << a / b;
 		break;
 	default:
-		cout << "Неверный формат ввода.";
+		std::cout << "Неверный формат ввода.";
 		break;
 	}
 }

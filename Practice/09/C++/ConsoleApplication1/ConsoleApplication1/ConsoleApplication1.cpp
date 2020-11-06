@@ -1,14 +1,7 @@
-﻿#include "pch.h"
-#include <iostream>
-#include <math.h>
-#include <string>
-#include <stdlib.h>
+﻿#include <iostream>
 
-
-using namespace std;
-
-int getTime(string s){
-	string a, b;
+int getTime(std::string s) {
+	std::string a, b;
 	int hour, minute;
 	b = s.substr(s.find(":") + 1);
 	minute = atoi(b.c_str());
@@ -20,15 +13,12 @@ int getTime(string s){
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	string s1, s2;
+	std::string s1, s2;
 	int a, b;
-	cin >> s1;
-	cin >> s2;
+	std::cin >> s1;
+	std::cin >> s2;
 	a = getTime(s1);
 	b = getTime(s2);
-	if (abs(a - b) <= 15) cout << "Встреча состоится.";
-	else cout << "Встреча не состоится.";
+	if (abs(a - b) <= 15) std::cout << "Встреча состоится.";
+	else std::cout << "Встреча не состоится.";
 }
-
-
-	
