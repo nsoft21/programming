@@ -298,15 +298,15 @@ window.mainloop()
 
 Скриншот виджета:
 
-![](./file/localhost.png)
+![](./file/localhost.jpg)
 
 Также была установлена программа NGROK, которая позволяет получить доступ к серверу даже не имея белый IP. После запуска вводим "ngrok.exe http 3000":
 
-![](./file/ngrok.png)
+![](./file/ngrok.jpg)
 
-![](./file/ngrok_cmd.png)
+![](./file/ngrok_cmd.jpg)
 
-![](./file/ngrok_web.png)
+![](./file/ngrok_web.jpg)
 
 ## Вывод по работе. 
 Для достижения поставленной цели были выполнены все поставленные задачи, а именно:
