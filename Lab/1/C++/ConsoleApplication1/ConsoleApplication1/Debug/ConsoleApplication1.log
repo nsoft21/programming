@@ -1,0 +1,6 @@
+﻿  ConsoleApplication1.cpp
+C:\Users\Nikolay\Desktop\Programming\labs\1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(71,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Nikolay\Desktop\Programming\labs\1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(142,13): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Nikolay\Desktop\Programming\labs\1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(174,13): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Nikolay\Desktop\Programming\labs\1\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(37): warning C4715: get_current_time: значение возвращается не при всех путях выполнения
+  ConsoleApplication1.vcxproj -> C:\Users\Nikolay\Desktop\Programming\labs\1\ConsoleApplication1\Debug\ConsoleApplication1.exe
