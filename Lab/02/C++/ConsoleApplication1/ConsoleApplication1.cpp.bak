@@ -1,0 +1,488 @@
+﻿#include <iostream>
+#include <string>
+#include <cpp_httplib/httplib.h>
+#include <nlohmann/json.hpp>
+#include <vector>
+
+using namespace httplib;
+using json = nlohmann::json;
+std::vector<std::string> cache;
+std::vector<std::string> webhooks;
+
+bool speak = true;
+json button_speak = R"({
+"title": "Говорить",
+"payload": {},
+"URL": "https://f904b1c221f6.ngrok.io/speak",
+"hide": false
+})";
+json button_silent = R"({
+"title": "Молчать",
+"payload": {},
+"URL": "https://f904b1c221f6.ngrok.io/silent",
+"hide": false
+})";
+
+void findAndRepl(std::string& data, std::string toSearch, std::string replStr) {
+	size_t pos = data.find(toSearch);
+	while (pos != std::string::npos) {
+		data.replace(pos, toSearch.size(), replStr);
+		pos = data.find(toSearch, pos + replStr.size());
+	}
+}
+
+// В этой функции формируем ответ сервера на запрос
+json gen_response(const std::string& text,
+	const std::string& tts,
+	const json buttons,
+	const json current_session = nullptr,
+	const bool end_session = false
+)
+{
+	/*enum voice_mode
+	{
+		silent_mode,
+		speak_mode
+	};
+
+	json default_state_buttons =
+	{
+		{
+			{"title", "Помощь"},
+			{"hide", true}
+		},
+	};
+	json speak_mode_button =
+	{
+		{"title", "Говорить"},
+		{"hide", true}
+	};
+	json silent_mode_button =
+	{
+		{"title", "Молчать"},
+		{"hide", true}
+	};*/
+
+	json response = {
+		{"response", {
+			{"buttons", buttons},
+			{"end_session", end_session}
+		}},
+		{"version", "1.0"}
+	};
+	if (text != "")
+	{
+		response["response"]["text"] = text;
+	}
+	if (speak)
+	{
+		if (tts != "")
+		{
+			response["response"]["tts"] = tts;
+		}
+		response["response"]["buttons"].push_back(button_silent);
+	}
+	else
+	{
+		response["response"]["buttons"].push_back(button_speak);
+	}
+	return response;
+}
+
+json session_list = json::array();
+
+void request_processing(const Request& req, Response& res) {
+	std::cout << req.body.c_str();
+	json j = json::parse(req.body);
+
+	if (j["session"]["new"]) {
+		std::string str = u8R"(
+{
+    "response": {
+    "text": "Здравствуйте! Я помогу вам с покупками.",
+    "tts": "Здравствуйте! Я помогу вам с покупками.",
+    "buttons": [
+        {
+            "title": "Молчать",
+            "payload": {},
+			"URL": "https://f904b1c221f6.ngrok.io/silent",
+            "hide": true
+        },
+        {
+            "title": "Помощь",
+            "payload": {},
+            "hide": true
+        }
+    ],
+    "end_session": false
+    },
+    "version": "1.0"
+})";
+		res.set_content(str, "text/json; charset=UTF-8");
+	}
+	else {
+		std::string session_id = j["session"]["session_id"];
+		json response;
+		json cur_session = nullptr;
+
+		for (auto session : session_list)
+		{
+			if (session["session_id"] == session_id)
+			{
+				cur_session = session;
+				break;
+			}
+		}
+		if (!session_id.empty()) {
+			std::string s = j["request"]["nlu"]["tokens"][0];
+			std::cout << "Слово: " << s << " = Р?Р?Р>С╪Р°С'С? - " << (s == "Р?Р?Р>С╪Р°С'С?") << "\n";
+			if (s == u8"Р?Р?Р>С╪Р°С'С?") {
+				speak = false;
+				std::string str = u8R"(
+{
+    "response": {
+    "text": "Молчу, молчу..",
+    "tts": "",
+    "buttons": [
+        {
+            "title": "Говорить",
+            "payload": {},
+            "hide": true
+        },
+        {
+            "title": "Помощь",
+            "payload": {},
+            "hide": true
+        }
+    ],
+    "end_session": false
+    },
+    "version": "1.0"
+})";
+				res.set_content(str, "text/json; charset=UTF-8");
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "говорить") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "помощь") {
+				std::string text = R"({
+Корзина. Поможет организовать покупки
+Помощь. Объснить как жто работает
+Говорить/Молчать. Включает и выключает звук соответственно
+О чём рассказать подробнее?	
+})";
+				json buttons = R"({
+"title": "Молчать",
+"payload": {},
+"hide": false
+},
+{
+"title": "Говорить",
+"payload": {},
+"hide": false
+},
+{
+"title": "Помощь",
+"payload": {},
+"hide": false
+},
+{
+"title": "Добавить в корзину",
+"payload": {},
+"hide": false
+},
+{
+"title": "Удалить из корзины",
+"payload": {},
+"hide": false
+},
+{
+"title": "Что в корзинеcr",
+"payload": {},
+"hide": false
+},
+{
+"title": "Сумма",
+"payload": {},
+"hide": false
+},
+{
+"title": "Покупка завершина",
+"payload": {},
+"hide": false
+},
+{
+"title": "Purchase completed",
+"payload": {},
+"hide": false
+},
+{
+"title": "Выход",
+"payload": {},
+"hide": false
+})";
+				json str = gen_response(text, text, buttons, cur_session);
+				std::cout << "STR = " << str;
+				res.set_content(str, "text/json; charset=UTF-8");
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "очистить") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "добавить") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "удалить") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "что") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "сумма") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "покупка") {
+
+			}
+			else if (j["request"]["nlu"]["tokens"][0] == "выход") {
+
+			}
+			else {
+			std::cout << u8"Suka";
+				if (speak) {
+					std::cout << u8"Дошел до speak";
+					std::string str = u8R"(
+{
+    "response": {
+    "text": "Чем могу служить?",
+    "tts": "Чем могу служить?",
+    "buttons": [
+        {
+            "title": "Молчать",
+            "payload": {},
+			"URL": "https://f904b1c221f6.ngrok.io/silent",
+            "hide": true
+        },
+        {
+            "title": "Помощь",
+            "payload": {},
+            "hide": true
+        }
+    ],
+    "end_session": false
+    },
+    "version": "1.0"
+})";
+					res.set_content(str, "text/json; charset=UTF-8");
+				}
+				else {
+					std::cout << u8"Дошел до dont speak";
+					std::string str = u8R"(
+{
+    "response": {
+    "text": "Чем могу служить?",
+    "tts": "",
+    "buttons": [
+        {
+            "title": "Говорить",
+            "payload": {},
+            "hide": true
+        },
+        {
+            "title": "Помощь",
+            "payload": {},
+            "hide": true
+        }
+    ],
+    "end_session": false
+    },
+    "version": "1.0"
+})";
+					res.set_content(str, "text/json; charset=UTF-8");
+				}
+			}
+			std::cout << u8"Тварь";
+		}
+		else {
+
+		}
+	}
+
+
+
+	std::string s = j["request"]["nlu"]["tokens"][0];
+
+	std::cout << s << std::endl;
+	//res.set_content(j["session"]["session_id"], "text/json; charset=UTF-8");
+}
+
+void update_conf(std::string param, std::string val) {
+	std::string conf_file_name = "conf.json";
+	std::ifstream conf_file(conf_file_name);
+	std::string config;
+	json j;
+
+	if (conf_file.is_open())
+	{
+		conf_file >> j;
+		conf_file.close();
+
+		if (param == "del") {
+			cache.erase(std::remove(cache.begin(), cache.end(), val), cache.end());
+		}
+		else if (param == "set") {
+			cache.push_back(val);
+		}
+		json j2;
+		j2["webhooks"] = cache;
+		std::ofstream conf_file(conf_file_name);
+		conf_file << j2;
+		conf_file.close();
+	}
+	else
+	{
+		std::cout << "Error open file 3";
+	}
+}
+
+void check_conf() {
+	std::string conf_file_name = "conf.json";
+	std::ifstream conf_file(conf_file_name);
+	std::string config;
+	std::cout << "Попытка открыть файл...\n";
+	if (conf_file.is_open())
+	{
+		int i = 0;
+		std::cout << "Открыл!\n";
+		json j = json::parse(conf_file);
+
+		for (int i = 0; i < j["webhooks"].size(); i++) {
+			cache.push_back(j["webhooks"][i]);
+			std::cout << j["webhooks"][i] << std::endl;
+		}
+	}
+	else
+	{
+		std::cout << "Не получилось, создаю новый...\n";
+		std::ofstream conf_file(conf_file_name);
+		std::string config = u8R"(
+{
+"webhooks":[]
+})";
+		conf_file << config;
+		conf_file.close();
+		cache = {};
+	}
+}
+
+void gen_response_webhooks(const Request& req, Response& res) {
+
+
+	std::string template_file_name = "template.html";
+	std::ifstream template_file(template_file_name);
+	std::string template_str;
+
+	//Читаем шаблон
+	if (template_file.is_open())
+	{
+		getline(template_file, template_str, '\0');
+		template_file.close();
+	}
+	else
+	{
+		std::cout << "Error open file";
+	}
+
+	//Формируем html-шаблон Webhooks
+	if (cache.empty()) {
+		findAndRepl(template_str, "{webhooks_list}", "");
+	}
+	else {
+		std::string template_file_name = "templ_block.html";
+		std::ifstream template_file_block(template_file_name);
+		std::string template_block;
+		std::string temp;
+
+		for (int i = 0; i < cache.size(); i++) {
+			if (template_file_block.is_open())
+			{
+				getline(template_file_block, template_block, '\0');
+				temp = template_block;
+			}
+			else {
+				std::cout << "Error open file 2";
+			}
+			findAndRepl(temp, "{Webhook URL}", cache[i]);
+
+			findAndRepl(template_str, "{webhooks_list}", temp);
+		}
+		template_file_block.close();
+		findAndRepl(template_str, "{webhooks_list}", "");
+	}
+
+	res.set_content(template_str, "text/html");
+
+}
+
+void gen_response_webhooks_post(const Request& req, Response& res) {
+	if (req.has_param("del")) {
+		auto val = req.get_param_value("del");
+		update_conf("del", val);
+	}
+	else if (req.has_param("set")) {
+		auto val = req.get_param_value("set");
+		update_conf("set", val);
+	}
+	else {
+		//Что за херню ты мне прислал?
+	}
+	gen_response_webhooks(req, res);
+}
+
+void silent(const Request& req, Response& res) {
+	speak = false;
+	json j = json::parse(req.body);
+
+	std::string text = u8R"({Молчу, молчу..})";
+
+	json buttons = u8R"({
+"title": "Помощь",
+"payload": {},
+"hide": true
+})";
+	
+	std::string str = gen_response(text, text, buttons, j["session"]["session_id"]);
+	res.set_content(str, "text/json; charset=UTF-8");
+}
+
+void speaking(const Request& req, Response& res) {
+	speak = true;
+	json j = json::parse(req.body);
+
+	std::string text = u8R"({Теперь буду говорить!})";
+
+	json buttons = u8R"({
+"title": "Помощь",
+"payload": {},
+"hide": true
+})";
+
+	std::string str = gen_response(text, text, buttons, j["session"]["session_id"]);
+	res.set_content(str, "text/json; charset=UTF-8");
+}
+
+int main() {
+	setlocale(LC_ALL, "ru");
+	Server svr;
+	check_conf();
+
+	svr.Post("/", request_processing);
+	svr.Post("/silent", silent);
+	svr.Post("/speak", speaking);
+	svr.Get("/webhooks", gen_response_webhooks);
+	svr.Post("/webhooks", gen_response_webhooks_post);
+	std::cout << "Start server... OK\n";
+	svr.listen("localhost", 1234);
+}
+
+
+
