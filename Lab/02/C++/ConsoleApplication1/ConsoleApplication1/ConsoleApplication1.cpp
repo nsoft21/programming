@@ -8,7 +8,6 @@
 using namespace httplib;
 using json = nlohmann::json;
 std::vector<std::string> cache;
-std::vector<std::string> webhooks;
 typedef std::map<std::string, std::string> new_Map;
 
 json session_list;
@@ -40,6 +39,7 @@ void findAndRepl(std::string& data, std::string toSearch, std::string replStr) {
 	}
 }
 
+//Формирует json покупок пользователя и отправляет на все webhooks
 void webhooks_resp(std::string user_id, json cart) {
 	json jcart = json::array();
 
@@ -79,7 +79,7 @@ void webhooks_resp(std::string user_id, json cart) {
 	}
 }
 
-// В этой функции формируем ответ сервера на запрос
+// В этой функции формируем JSON для Яндекса
 json gen_response(const std::string& text,
 	const std::string& tts,
 	const json buttons,
@@ -113,16 +113,18 @@ json gen_response(const std::string& text,
 		}
 		else if (!session_list[session_id]["speak"] && !session_list[session_id]["help"])
 		{
-			response["response"]["buttons"].push_back(button_speak);
+			if (!session_list[session_id]["help"]) {
+				response["response"]["buttons"].push_back(button_speak);
+			}
 		}
 	}
 
 	return response;
 }
 
+// Формируем полный ответ на post запрос от Яндекса
 void request_processing(const Request& req, Response& res) {
 	json j = json::parse(req.body);
-	std::string mode;
 	json str;
 
 	std::string session_id = j["session"]["session_id"];
@@ -231,9 +233,6 @@ void request_processing(const Request& req, Response& res) {
 					}
 					else if(session_id != session_old->first){
 						arr.push_back(session_list);
-					}
-					else
-					{
 						++session_old;
 					}
 				}
@@ -425,7 +424,7 @@ void update_conf(std::string param, std::string val) {
 	}
 	else
 	{
-		std::cout << "Error open file 3";
+		log_file << "Error open file 3\n";
 	}
 }
 
@@ -433,34 +432,30 @@ void check_conf() {
 	std::string conf_file_name = "conf.json";
 	std::ifstream conf_file(conf_file_name);
 	std::string config;
-	std::cout << u8"Попытка открыть файл...\n";
+	log_file << u8"Попытка открыть файл...\n";
 	if (conf_file.is_open())
 	{
-		int i = 0;
-		std::cout << u8"Открыл!\n";
+		log_file << u8"Открыл!\n";
 		json j = json::parse(conf_file);
 
 		for (int i = 0; i < j["webhooks"].size(); i++) {
 			cache.push_back(j["webhooks"][i]);
-			std::cout << j["webhooks"][i] << std::endl;
+			log_file << j["webhooks"][i] << std::endl;
 		}
 	}
 	else
 	{
-		std::cout << u8"Не получилось, создаю новый...\n";
+		log_file << u8"Не получилось, создаю новый...\n";
 		std::ofstream conf_file(conf_file_name);
-		std::string config = u8R"(
-{
-"webhooks":[]
-})";
-		conf_file << config;
+		json j2;
+		j2["webhooks"] = json::array();
+		conf_file << j2;
 		conf_file.close();
 		cache = {};
 	}
 }
 
 void gen_response_webhooks(const Request& req, Response& res) {
-
 
 	std::string template_file_name = "template.html";
 	std::ifstream template_file(template_file_name);
@@ -474,7 +469,7 @@ void gen_response_webhooks(const Request& req, Response& res) {
 	}
 	else
 	{
-		std::cout << "Error open file";
+		log_file << "Error open file";
 	}
 
 	//Формируем html-шаблон Webhooks
@@ -494,7 +489,7 @@ void gen_response_webhooks(const Request& req, Response& res) {
 				temp = template_block;
 			}
 			else {
-				std::cout << "Error open file 2";
+				log_file << "Error open file 2";
 			}
 			findAndRepl(temp, "{Webhook URL}", cache[i]);
 
@@ -518,7 +513,7 @@ void gen_response_webhooks_post(const Request& req, Response& res) {
 		update_conf("set", val);
 	}
 	else {
-		//Что за херню ты мне прислал?
+		//Ошибка
 	}
 	gen_response_webhooks(req, res);
 }
