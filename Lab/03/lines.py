@@ -264,7 +264,7 @@ def clearList(list_):
             else:
                 if count >= 4:
                     deletedSome = True
-                    for i in range(count + 1):
+                    for i in range(5):
                         c = col[elem - i]
                         c.color = -1
                         c.sizeBalls = -1
@@ -273,7 +273,7 @@ def clearList(list_):
                 count = 0
         if count >= 4:
             deletedSome = True
-            for i in range(count + 1):
+            for i in range(5):
                 c = col[elem - i]
                 c.color = -1
                 c.sizeBalls = -1
