@@ -17,10 +17,9 @@ cmColumns = []
 cmDiags = []
 cmRDiags = []
 
-N, M = 9, 9
+numColumns, numRows = 9, 9
 gap = 4
 globalPadding = 20
-
 ProcessClicks: bool = True
 
 
@@ -96,10 +95,10 @@ def getImages():
 
 def createCells():
     global matrixCell, cmColumns, cmRows
-    for row in range(N):
+    for row in range(numColumns):
         matrixCell.append(list())
         cmColumns.append(list())
-        for col in range(M):
+        for col in range(numRows):
             cell = Cell()
             cell.imagetk = images['cellDark']
             cell.row = row
@@ -107,9 +106,9 @@ def createCells():
             matrixCell[row].append(cell)
             FreeCells.append(cell)
             cmColumns[row].append(cell)
-    for col in range(M):
+    for col in range(numRows):
         cmRows.append(list())
-        for row in range(N):
+        for row in range(numColumns):
             cmRows[col].append(matrixCell[row][col])
 
 
@@ -250,7 +249,7 @@ def isAccessable(fromx, fromy, tox, toy):
         for i in range(4):
             a = p[0] + Dir[i][0]
             b = p[1] + Dir[i][1]
-            if a >= 0 and b >= 0 and a < N and b < M and visited.count((a, b)) == 0 and matrixCell[a][b].sizeBalls == -1:
+            if a >= 0 and b >= 0 and a < numColumns and b < numRows and visited.count((a, b)) == 0 and matrixCell[a][b].sizeBalls == -1:
                 queue.append((a, b))
     return False
 
@@ -350,8 +349,8 @@ def newGame(event=None):
     global gameOver
     gameOver = False
 
-    for row in range(N):
-        for col in range(M):
+    for row in range(numColumns):
+        for col in range(numRows):
             cell = matrixCell[row][col]
             cell.dark = True
             cell.sizeBalls = -1
