@@ -4,8 +4,4 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp \
-        IntArray.cpp
-
-HEADERS += \
-        IntArray.h
+        main.cpp
