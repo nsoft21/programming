@@ -1,0 +1,15 @@
+﻿  tetris-plus.cpp
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(123,30): warning C4305: инициализация: усечение из "double" в "float"
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(158,59): warning C4305: =: усечение из "double" в "float"
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(232,34): warning C4305: =: усечение из "double" в "float"
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(244,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(244,26): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(255,43): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(255,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(357,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(398,31): warning C4101: e: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(432,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(99): warning C4715: endGame: значение возвращается не при всех путях выполнения
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(402): warning C4715: login: значение возвращается не при всех путях выполнения
+C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(269): warning C4715: start_game: значение возвращается не при всех путях выполнения
+  tetris-plus.vcxproj -> C:\Users\Nikolay\Desktop\qt_project\tetris-plus.vs\tetris-plus\Debug\tetris-plus.exe
