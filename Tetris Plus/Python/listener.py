@@ -1,39 +1,90 @@
 from find_by_key import *
+from mysql_conf import *
+
+
+def send_free_users(user):
+	free_users = find_user_by_key()
+	if len(free_users) == 0:
+		msg = 'noplayers'
+	else:
+		msg = str(len(free_users))
+		i = 0
+		for users in free_users:
+			if i>8:
+				continue
+			text = users["login"] + ':' + str(users["score"]) + ' '
+			msg = msg + text
+	msg = str(len(msg)) + msg;
+	print(f'Отправляю комнаты: {msg}')
+	user.send(msg.encode('utf-8')) # Отправляем всех возможных соперников
+	return free_users
+
+
+def send_textures(user):
+	texture_list = get_textures()
+	if len(texture_list) == 0:
+		msg = 'notexture'
+	else:
+		msg = ''
+		i = 0
+		for texture in texture_list:
+			if i>8:
+				continue
+			text = texture["link"] + '_' + str(texture["price"]) + ' '
+			msg = msg + text
+	msg = str(len(msg)) + msg;
+	user.send(msg.encode('utf-8')) # Отправляем текстуры
+
+
+def send_users_rating(user):
+	users_list = get_users_rating()
+	msg = ''
+	i = 0
+	for users in users_list:
+		if i>8:
+			continue
+		text = str(users["login"]) + ':' + str(users["score"]) + ' '
+		msg = msg + text
+	msg = str(len(msg)) + msg;
+	user.send(msg.encode('utf-8')) # Отправляем таблицу рейтинга
+
 
 def listen_user(user, user_param):
 	while True:
-		if user_param['find_game'] == False:
-			data = user.recv(2048)
+		print("Жду запроса LISTEN USER: ")
+		data = user.recv(2048)
+		if user_param['find_game'] == "False":
+			print(f"Получил {data.decode('utf-8')}, зашел в findgame")
 			try:
 				msg = data.decode('utf-8')
-				if msg.find('findgame'):
-					send_free_users(user);
+				if msg == 'findgame':
+					print("Формирую и отправляю комнаты")
+					free_user = send_free_users(user)
 					continue
-				elif msg.find('newgame'):
+				elif msg == 'newgame':
+					print('newgame')
 					msg = msg.split(':')
 					print(msg)
 					# Изменить значение 'find_game' на True
-				elif msg.find('rating'):
-					pass
-				elif msg.find('shop'):	
-					pass
+				elif msg == 'rating':
+					send_users_rating(user)
+				elif msg == 'shop':
+					send_textures(user)
+				elif msg == 'connect':
+					msg = msg.split(':')
+					free_user[msg[1]]
 				else:
+					print("Зашли в ELSE:")
 					print(msg)
 			except:
-				pass
-		elif user_param['find_game'] == True:
+				msg = data.decode('utf-8')
+				print(f"EXCEPT: {msg}")
+		elif user_param['find_game'] == "True":
+			print('continue')
 			continue
 		elif user_param['find_game'] == 'in_game':
 			# Проверяем что нажимает пользователь
 			data = user.recv(2048)
 			msg = data.decode('utf-8')
+			print("Зашли в ELIF:")
 			print(msg)
-
-def send_free_users(user):
-	free_users = find_all_by_key(sessions, "find_game", True)
-	msg = ''
-	for users in free_users:
-		text = users[0] + ':' + users[1][name] + ':' + users[1][score] + ' '
-		msg = msg + text
-	msg = str(len(msg)) + msg;
-	user.send(msg.encode('utf-8')) # Отправляем всех возможных соперников

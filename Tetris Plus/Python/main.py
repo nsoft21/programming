@@ -4,6 +4,8 @@ from listener import *
 from mysql_conf import *
 
 
+sessions = []
+
 def autorization(user):
 	data = user.recv(2048)
 	msg = data.decode('utf-8')
@@ -13,22 +15,28 @@ def autorization(user):
 		password = msg[2]
 		user_param = check_user(login, password)
 		if user_param:
-			msg = '07success'
+			msg = 'success:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score'])
+			msg = str(len(msg)) + msg
+			print(f'Login success: {msg}')
 			user.send(msg.encode('utf-8'))
 		else:
 			text = 'fail'
 			msg = str(len(text)) + text;
 			user.send(msg.encode('utf-8'))
-			autorization()
+			autorization(user)
 	elif msg[0] == 'reg':
 		login = msg[1]
 		password = msg[2]
 		user_param = create_user(login, password)
+		msg = '07success'
+		user.send(msg.encode('utf-8'))
 	else:
 		text = 'nofunc'
 		msg = str(len(text)) + text;
 		user.send(msg.encode('utf-8'))
 		autorization(user)
+	sessions.append(user_param)
+	print(f"Слушаю {user}")
 	listen_user(user, user_param)
 		
 

@@ -59,6 +59,50 @@ def check_user(login, password):
 	except:
 		return False
 
+
+def get_users_rating():
+	try:
+		connection = connect()
+		with connection:
+			with connection.cursor() as cursor:
+				query = f"SELECT * FROM users WHERE score>0 ORDER BY score DESC"
+				cursor.execute(query)
+				users_list = []
+				for row in cursor:
+					users_list.append(row)
+				return users_list
+	except:
+		return False
+
+
+def get_textures():
+	try:
+		connection = connect()
+		with connection:
+			with connection.cursor() as cursor:
+				query = f"SELECT * FROM shop"
+				cursor.execute(query)
+				texture_list = []
+				for row in cursor:
+					texture_list.append(row)
+				return texture_list
+	except:
+		return False
+
+
+def find_rooms_by_key(key = 'find_game', value = 'True'):
+	try:
+		connection = connect()
+		with connection:
+			with connection.cursor() as cursor:
+				query = f"SELECT * FROM rooms WHERE WHERE {key}='{value}'"
+				cursor.execute(query)
+				for row in cursor:
+					user_param = row
+				return user_param
+	except:
+		return False
+
 if __name__ == '__main__':
 	print(create_user())
 	print(find_user_by_key())
