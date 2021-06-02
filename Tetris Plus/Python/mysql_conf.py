@@ -1,5 +1,6 @@
 import pymysql
 from pymysql.cursors import DictCursor
+from random import randint
 
 
 def connect():
@@ -90,16 +91,64 @@ def get_textures():
 		return False
 
 
-def find_rooms_by_key(key = 'find_game', value = 'True'):
+def find_rooms():
 	try:
 		connection = connect()
 		with connection:
 			with connection.cursor() as cursor:
-				query = f"SELECT * FROM rooms WHERE WHERE {key}='{value}'"
+				query = f"SELECT * FROM rooms WHERE user2 IS NULL"
 				cursor.execute(query)
+				rooms = []
 				for row in cursor:
-					user_param = row
-				return user_param
+					rooms.append(row)
+				return rooms
+	except:
+		return False
+
+
+def update_db_param(query):
+	try:
+		connection = connect()
+		with connection:
+			with connection.cursor() as cursor:
+				cursor.execute(query)
+				connection.commit()
+	except:
+		print(query + " - FAILED")
+		return False
+
+
+def insert_into_rooms(user1, status):
+	connection = connect()
+	with connection:
+		with connection.cursor() as cursor:
+			try:
+				id_s = str(randint(100, 999))
+				query = f"insert into rooms (id, user1, status) select '{id_s}', '{user1}', '{status}'"
+				cursor.execute(query)
+				connection.commit()
+			except:
+				id_s = str(randint(100, 999))
+				query = f"insert into rooms (id, user1, status) select '{id_s}', '{user1}', '{status}'"
+				cursor.execute(query)
+				connection.commit()
+			return id_s
+			
+
+def check_opponent(id_s):
+	try:
+		connection = connect()
+		with connection:
+			with connection.cursor() as cursor:
+				while True:
+					query = f"SELECT * FROM rooms WHERE id='{id_s}'"
+					cursor.execute(query)
+					for row in cursor:
+						room_param = row
+					if room_param["user2"] == None:
+						return "None"
+					else:
+						return "True"
 	except:
 		return False
 
