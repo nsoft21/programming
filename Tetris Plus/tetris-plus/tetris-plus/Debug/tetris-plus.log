@@ -1,135 +1,135 @@
 ﻿  tetris-plus.cpp
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(119,30): warning C4305: инициализация: усечение из "double" в "float"
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(212,35): warning C4305: =: усечение из "double" в "float"
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(237,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(237,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(244,44): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(244,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(288,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(288,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(295,44): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(295,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(411,23): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(411,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(438,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(443,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(332,13): warning C4101: event: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(400,13): warning C4101: event: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(594,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(594,19): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(622,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(625,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(629,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(578,12): warning C4101: event: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(635,33): warning C4101: e: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(775,32): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(777,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(781,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(736,12): warning C4101: event: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(735,20): warning C4101: textureNum: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(787,33): warning C4101: e: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(807,12): warning C4101: event: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(953,31): warning C4101: e: неиспользованная локальная переменная
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1181,32): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(138,30): warning C4305: инициализация: усечение из "double" в "float"
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(315,35): warning C4305: =: усечение из "double" в "float"
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(326,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(326,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(334,44): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(334,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(439,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(439,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(447,44): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(447,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(562,23): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(562,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(589,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(594,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(483,13): warning C4101: event: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(551,13): warning C4101: event: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(741,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(741,19): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(769,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(779,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(783,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(725,12): warning C4101: event: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(789,33): warning C4101: e: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(937,32): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(939,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(943,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(898,12): warning C4101: event: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(897,20): warning C4101: textureNum: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(949,33): warning C4101: e: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(969,12): warning C4101: event: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1116,31): warning C4101: e: неиспользованная локальная переменная
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1344,32): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1181,25): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1344,25): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1181,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1344,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1181,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1344,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1182,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1345,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1182,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1345,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1182,22): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1345,22): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1182,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1345,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1184,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1347,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1184,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1347,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1184,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1347,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1184,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1347,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1185,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1348,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1185,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1348,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1185,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1348,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1185,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1348,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1187,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1350,34): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1187,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1350,27): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1187,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1350,20): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1187,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1350,15): warning C4244: аргумент: преобразование "float" в "T", возможна потеря данных
           with
           [
               T=int
           ]
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1285,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(99): warning C4715: endGame: значение возвращается не при всех путях выполнения
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(1448,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\tetris-plus\tetris-plus.cpp(118): warning C4715: endGame: значение возвращается не при всех путях выполнения
   tetris-plus.vcxproj -> C:\Users\Nikolay\Desktop\tetris-plus.vs\tetris-plus\Debug\tetris-plus.exe

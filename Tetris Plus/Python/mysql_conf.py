@@ -24,13 +24,13 @@ def create_user(login = 'niki3', password = '1234qwe', find_game = 'False', scor
 			for row in cursor:
 				i = 1
 			if i == 0:
-				query = f"""insert into users (login, password, find_game, score, money, queue) 
-					select '{login}', '{password}', '{find_game}', '{score}', '{money}', '{login}' 
+				query = f"""insert into users (login, password, find_game, score, money, queue, textures) 
+					select '{login}', '{password}', '{find_game}', '{score}', '{money}', '{login}', '1' 
 					from dual where not exists (select 1 from users where login = '{login}')"""
 			
 				cursor.execute(query)
 				connection.commit()
-				user_param = {'login': login, 'password': password, 'find_game': 'False', 'score': 0, 'money': 0}
+				user_param = {'login': login, 'password': password, 'find_game': 'False', 'score': 0, 'money': 0, 'textures': '1'}
 				return user_param
 			else:
 				return False

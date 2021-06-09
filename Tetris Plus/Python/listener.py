@@ -5,7 +5,7 @@ from storage import *
 free_rooms = []
 id_s = 0
 indicator = 'f'
-opponent = 0
+opponent = 't'
 
 def send_rooms(user):
 	global free_rooms
@@ -41,6 +41,16 @@ def send_textures(user):
 	user.send(msg.encode('utf-8')) # Отправляем текстуры
 
 
+def buy_textures(user, num):
+	texture_list = get_textures()
+	# texture_list[num]
+	#	for texture in texture_list:
+	#		text = texture["link"] + '_' + str(texture["price"]) + ' '
+	#		msg = msg + text
+	#msg = str(len(msg)) + msg;
+	#user.send(msg.encode('utf-8')) # Отправляем текстуры
+
+
 def send_users_rating(user):
 	users_list = get_users_rating()
 	msg = ''
@@ -60,30 +70,47 @@ def new_game(user1):
 	id_s = insert_into_rooms(user1, 'find')
 
 
+def end_of_game(user_param, score, id_s):
+	user_param['score'] = user_param['score'] + score
+	user_param['money'] = user_param['money'] + score
+	user_param['find_game'] = "False"
+	update_db_param(f"UPDATE users SET score = '{user_param['score']}', money = '{user_param['money']}', find_game = 'False' WHERE users.login = '{user_param['login']}'")
+	update_db_param(f"DELETE FROM rooms WHERE id = {id_s}")
+
+	msg = 'endgame:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score'])
+	msg = str(len(msg)) + msg;
+	return msg
+
+
 def game(user, user_param, swap):
 	global id_s
 	this.swap = swap
-	print(f"В in_game игрок: {user_param['login']}")
 	k = this.swap[str(id_s)][0]
-	print(f'k = {k}')
 	# 0,1 - для решения чей ход
 	# 2   - для смены ходящего
 	# 3   - для окончания игры
 
 	while k != 3:
 
-		msg = str(this.swap[str(id_s)][0]) + str(this.swap[str(id_s)][1])
+		msg = str(this.swap[str(id_s)][0]) + '|' + str(this.swap[str(id_s)][1])
+		msg = str(len(msg)) + msg
 		user.send(msg.encode('utf-8'))
 		data = user.recv(2048)
 		msg = data.decode('utf-8')
-		if msg[0] == indicator:
-			print(f'msg[0] = indicator')
-			print(f'msg[1:] = {msg[1:]}')
-			this.swap[str(id_s)] = [indicator, msg[1:]]
-		elif msg[0] == 2:
-			this.swap[str(id_s)] = [opponent, msg[1:]]
-		elif msg[0] == 3:
+		if (msg[0] == indicator) or (msg[0] == opponent):
+			this.swap[str(id_s)] = [msg[0], msg[2:]]
+		elif msg[0] == "2":
+			this.swap[str(id_s)] = [opponent, msg[2:]]
+		elif msg[0] == "3":
+			msg = msg.split(':')
+			score = int(msg[1])
+			this.swap[str(id_s)] = ["e", "0|0|0|0|0|0|0|0"]
+			msg = end_of_game(user_param, score, id_s)
+			print(msg)
+			user.send(msg.encode('utf-8'))
 			k = 3
+
+
 	# Проверяем что нажимает пользователь
 
 
@@ -99,28 +126,36 @@ def listen_user(user, user_param, swap):
 				if msg[0] == 'findgame':
 					send_rooms(user)
 					continue
-				elif msg[0] == 'newgame':
+				elif msg[0] == 'newgame': # -------------------------------- NEW GAME -------------------------------------- #
 					new_game(user_param['login'])
-					this.swap[id_s] = [randint(0, 1), msg[1]]
+					if randint(0, 1) == 1:
+						this.swap[id_s] = ['t', msg[1]]
+					else:
+						this.swap[id_s] = ['f', msg[1]]
 
 					while True:
 						if check_opponent(id_s) == "True":
 							break
 						
 					update_db_param(f"UPDATE users SET find_game = 'in_game' WHERE users.login = '{user_param['login']}'")
+					update_db_param(f"UPDATE rooms SET status = 'in_game' WHERE id = {id_s}")
 					print('В NEWGAME прошла проверка')
 					user_param['find_game'] = 'in_game'
 					indicator = 'f'
-					opponent = 1
+					opponent = 't'
 					msg = '05start'
 					user.send(msg.encode('utf-8'))
 					game(user, user_param, this.swap)
 					# Изменить значение 'find_game' на True
-				elif msg[0] == 'rating':
+				elif msg[0] == 'rating':  # --------------------------------- RATING --------------------------------------- #
 					send_users_rating(user)
-				elif msg[0] == 'shop':
-					send_textures(user)
-				elif msg[0] == 'connect':
+				elif msg[0] == 'shop':    # ---------------------------------- SHOP ---------------------------------------- #
+					print(msg)
+					if len(msg) != 1:
+						buy_textures(user, msg[1])
+					else:
+						send_textures(user)
+				elif msg[0] == 'connect': # --------------------------------- CONNECT -------------------------------------- #
 					id_s = free_rooms[int(msg[1]) - 1]['id']
 					query = f"UPDATE users SET find_game = 'in_game' WHERE users.login = '{user_param['login']}'"
 					print(f'query1 = {query}')
@@ -131,7 +166,7 @@ def listen_user(user, user_param, swap):
 					print('Должна быть запись в БД о user2')
 					user_param['find_game'] = 'in_game'
 					indicator = 't'
-					opponent = 0
+					opponent = 'f'
 					msg = '05start'
 					print(f"connect: {msg}")
 					user.send(msg.encode('utf-8'))

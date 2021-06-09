@@ -5,13 +5,14 @@
 #include <winsock2.h>
 #include <iostream>
 #include <fstream>
+#include<sstream>
 
 SOCKET Connection;
 using namespace sf;
 using std::string;
 using std::to_string;
 
-std::string name, money, score;
+std::string name, money, score, user_textures;
 
 auto connect() {
 	WSAData wsaData;
@@ -54,7 +55,7 @@ std::string decoding(char msg[]) {
 
 const int M = 20; // высота игрового поля
 const int N = 10; // ширина игрового поля
-std::string indicator = "f";
+std::string indicator = "f", tetramino_texture = "tiles";
 
 int field[M][N] = { 0 }; // игровое поле
 
@@ -87,6 +88,24 @@ bool check()
 
 };
 
+bool check_textures(char num) {
+	std::cout << "num = " << num << ", user_textures = " << user_textures << std::endl;
+	std::string sep = "|";
+	int i = 0;
+	size_t pos = 0;
+	std::string token;
+	while ((pos = user_textures.find(sep)) != std::string::npos) {
+		token = user_textures.substr(0, pos);
+		if (token == num)
+			std::cout << "token = " << token << std::endl;
+			return 1;
+	}
+	if (user_textures == num)
+		return 1;
+	std::cout << "return 0;" << std::endl;
+	return 0;
+}
+
 bool endGame()
 {
 	for (int i = 0; i < N; i++)
@@ -102,7 +121,7 @@ void start_game(RenderWindow& window) {
 
 	// Создание и загрузка текстуры
 	Texture texture, texture_background, texture_frame, texture_menu;
-	texture.loadFromFile("images/tiles.png");
+	texture.loadFromFile("images/" + tetramino_texture + ".png");
 	texture_background.loadFromFile("images/background.png");
 	texture_frame.loadFromFile("images/frame.png");
 
@@ -113,7 +132,7 @@ void start_game(RenderWindow& window) {
 	sprite.setTextureRect(IntRect(0, 0, 18, 18));
 
 	// Переменные для горизонтального перемещения и вращения
-	int dx = 0; bool rotate = 0; int colorNum = 1; bool beginGame = true; int n = rand() % 7;
+	int dx = 0; bool rotate = 0; int colorNum = 1; bool beginGame = true; int n = rand() % 7; int score_now = 0; bool exit = 0;
 
 	// Переменные для таймера и задержки
 	float timer = 0, delay = 0.3;
@@ -121,16 +140,33 @@ void start_game(RenderWindow& window) {
 	// Часы (таймер)
 	Clock clock;
 	beginGame = true;
-
+	std::string temp = "";
 	// Главный цикл приложения. Выполняется, пока открыто окно
-	while (window.isOpen())
+	while ((window.isOpen()) && (exit == 0))
 	{
 		
-		char msg[200];
+		char msg[64];
 		recv(Connection, msg, sizeof(msg), NULL);
+		std::string msg_str = decoding(msg);
+		if (temp != "") {
+			if (msg_str[0] == temp) {}
+			else if (msg_str[0] == indicator) {
+				for (int i = 0; i < 4; i++)
+				{
+					a[i].x = figures[n][i] % 2;
+					a[i].y = figures[n][i] / 2;
+				}
+				temp = indicator;
+			}
+			else {
+				temp = msg_str[0];
+			}
+		}
 
-		if (msg[0] == indicator) {
 
+		if (msg_str[0] == indicator) {
+			std::cout << "Xog HaIII, indicator = " << indicator << ", temp = " << temp << std::endl;
+			temp = indicator;
 			float time = clock.getElapsedTime().asSeconds();
 			clock.restart();
 			timer += time;
@@ -149,7 +185,9 @@ void start_game(RenderWindow& window) {
 			}
 
 			for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].x += dx; }
+
 			if (!check()) for (int i = 0; i < 4; i++) a[i] = b[i];
+
 			if (rotate)
 			{
 				Point p = a[1];
@@ -168,21 +206,82 @@ void start_game(RenderWindow& window) {
 			if (timer > delay)
 			{
 				for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].y += 1; }
+				std::string msg_str = "";
 				if (!check())
 				{
-					for (int i = 0; i < 4; i++) 
+					msg_str += "2|";
+				}
+				else {
+					msg_str += indicator + "|";
+				}
+				for (int i = 0; i < 4; i++)
+				{
+					msg_str += std::to_string(a[i].x);
+					msg_str += "|";
+					msg_str += std::to_string(a[i].y);
+					msg_str += "|";
+				}
+				//std::cout << "msg_str = " << msg_str << std::endl;
+				send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+
+				if (!check())
+				{
+					for (int i = 0; i < 4; i++)
 						field[b[i].y][b[i].x] = colorNum;
 					colorNum = 1 + rand() % 7;
 					n = rand() % 7;
 					for (int i = 0; i < 4; i++)
 					{
-						a[i].x = figures[n][i] % 2;
-						a[i].y = figures[n][i] / 2;
+						a[i].x = figures[n][i] % 2; //std::cout << "NEW a[i].x = " << a[i].x << std::endl;
+						a[i].y = figures[n][i] / 2; //std::cout << "NEW a[i].y = " << a[i].y << std::endl;
+					}
+					for (int i = 0; i < 4; i++)
+						if (field[a[i].y][a[i].x]) {
+							exit = 1;
+						}
+					if (exit == 1) {
+						char msg[64];
+						recv(Connection, msg, sizeof(msg), NULL);
+						msg_str = "3:" + to_string(score_now); // + счет данного игрока
+						send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+						recv(Connection, msg, sizeof(msg), NULL);
+
+						msg_str = decoding(msg);
+						std::string sep = ":";
+						int i = 0;
+						size_t pos = 0;
+						std::string token;
+						while ((pos = msg_str.find(sep)) != std::string::npos) {
+							token = msg_str.substr(0, pos);
+							if (i == 0) {}
+							else {
+								if (i == 1) { name = token; }
+								if (i == 2) { money = token; }
+							}
+							i++;
+							msg_str.erase(0, pos + sep.length());
+						}
+						score = msg_str;
+						exit = 1;
 					}
 				}
 				timer = 0;
 			}
+			else {
 
+				std::string msg_str = indicator + "|";
+
+				for (int i = 0; i < 4; i++)
+				{
+					msg_str += std::to_string(a[i].x);
+					msg_str += "|";
+					msg_str += std::to_string(a[i].y);
+					msg_str += "|";
+				}
+				send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+			}
+
+			// ---- СТРОКА ---- //
 			int k = M - 1;
 			for (int i = M - 1; i > 0; i--)
 			{
@@ -192,7 +291,10 @@ void start_game(RenderWindow& window) {
 					if (field[i][j]) count++;
 					field[k][j] = field[i][j];
 				}
-				if (count < N) k--;
+				if (count < N)
+					k--;
+				else
+					score_now++;
 			}
 
 			// Проверка на конец игры
@@ -212,20 +314,6 @@ void start_game(RenderWindow& window) {
 			}
 			dx = 0; rotate = 0; delay = 0.3;
 
-			std::string msg_str = indicator;
-			for (int i = 0; i < M; i++) {
-				for (int j = 0; j < N; j++)
-				{
-					if (field[i][j] == 1)
-						msg_str += "t";
-					else
-						msg_str += "f";
-				}
-			}
-			std::cout << msg_str << std::endl;
-
-			send(Connection, msg_str.c_str(), msg_str.length(), NULL);
-
 			//----ОТРИСОВКА----//
 
 			window.clear(Color::White);
@@ -236,6 +324,7 @@ void start_game(RenderWindow& window) {
 					if (field[i][j] == 0) continue;
 					sprite.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
 					sprite.setPosition(j * 18, i * 18);
+					sprite.move(28, 31);
 					window.draw(sprite);
 				}
 
@@ -246,35 +335,96 @@ void start_game(RenderWindow& window) {
 				sprite.move(28, 31);
 				window.draw(sprite);
 			}
-			window.draw(sprite_frame);
+			window.draw(sprite_frame); // Рамка
 			window.display();
 		}
+		else if (msg_str == "e|0|0|0|0|0|0|0|0") {
+			exit = 1;
+			msg_str = "3:" + to_string(score_now);
+			send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+			recv(Connection, msg, sizeof(msg), NULL);
+
+			msg_str = decoding(msg);
+			std::string sep = ":";
+			int i = 0;
+			size_t pos = 0;
+			std::string token;
+			while ((pos = msg_str.find(sep)) != std::string::npos) {
+				token = msg_str.substr(0, pos);
+				if (i == 0) {}
+				else {
+					if (i == 1) { name = token; }
+					if (i == 2) { money = token; }
+				}
+				i++;
+				msg_str.erase(0, pos + sep.length());
+			}
+			score = msg_str;
+		}
 		else {
-			beginGame = false;
+			std::cout << "Xog He HaIII, indicator = " << indicator << ", temp = " << temp << std::endl;
+			beginGame = false; // ходим 2ми - точно не начало игры
 
-			int p = 1;
-			for (int i = 0; i < M; i++) {
-				for (int j = 0; j < N; j++)
+			// -- Принимаем и расшифровываем ход и местоположение фигуры -- //
+			std::string s = msg_str;
+			std::string sep = "|";
+			int i = 0, ik = 0;
+			size_t pos = 0;
+			std::string token;
+			while ((pos = s.find(sep)) != std::string::npos) {
+				token = s.substr(0, pos);
+				if (i == 0) {}
+				else if (i % 2 == 0) { //token Y
+					a[ik].y = atoi(token.c_str());
+					ik++;
+				}
+				else //token X
+					a[ik].x = atoi(token.c_str());
+		
+				i++;
+				s.erase(0, pos + sep.length());
+			}
+
+			// -- проверяем упала ли фигурка, проверяем строку -- //
+
+			Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == Event::Closed)
+					window.close();
+
+				if (event.type == Event::KeyPressed)
+					if (event.key.code == Keyboard::Escape) break;
+			}
+
+			for (int i = 0; i < 4; i++)
+				b[i] = a[i];
+			if (!check())
+			{
+				for (int i = 0; i < 4; i++)
+					field[a[i].y-1][a[i].x] = colorNum;
+				colorNum = 1 + rand() % 7;
+				n = rand() % 7;
+				for (int i = 0; i < 4; i++)
 				{
-					if (std::to_string(msg[p]) == "t")
-						field[i][j] = 1;
-					else
-						field[i][j] = 0;
-					p++;
+					a[i].x = figures[n][i] % 2;
+					a[i].y = figures[n][i] / 2;
 				}
 			}
 
-			std::string msg_str = indicator;
-			for (int i = 0; i < M; i++) {
+			// ---- СТРОКА ---- //
+			int k = M - 1;
+			for (int i = M - 1; i > 0; i--)
+			{
+				int count = 0;
 				for (int j = 0; j < N; j++)
 				{
-					if (field[i][j] == 1)
-						msg_str += "t";
-					else
-						msg_str += "f";
+					if (field[i][j]) count++;
+					field[k][j] = field[i][j];
 				}
+				if (count < N) k--;
 			}
-
+			msg_str = "OK";
 			send(Connection, msg_str.c_str(), msg_str.length(), NULL);
 
 			//----ОТРИСОВКА----//
@@ -287,6 +437,7 @@ void start_game(RenderWindow& window) {
 					if (field[i][j] == 0) continue;
 					sprite.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
 					sprite.setPosition(j * 18, i * 18);
+					sprite.move(28, 31);
 					window.draw(sprite);
 				}
 
@@ -302,8 +453,7 @@ void start_game(RenderWindow& window) {
 		}
 	}
 
-
-
+	field[M][N] = { 0 };
 }
 
 void find_game(RenderWindow& window) {
@@ -353,16 +503,16 @@ void find_game(RenderWindow& window) {
 			if (Mouse::isButtonPressed(Mouse::Left)) {
 				if (menuNum == 11) {
 					indicator = "f";
-					field[M][N] = { 0 };
-					std::string msg_str = "newgame:";
+					std::string msg_str = "newgame:0|0|0|0|0|0|0|0";
 
-					for (int i = 0; i < M; i++) {
-						for (int j = 0; j < N; j++)
-						{
-							msg_str += std::to_string(field[i][j]);
-						}
-					}
 					send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+
+					Texture t_newgame_back;
+					t_newgame_back.loadFromFile("images/newgame_back.png");
+					Sprite s_newgame_back(t_newgame_back);
+					s_newgame_back.setPosition(0, 0);
+					window.draw(s_newgame_back);
+					window.display();
 
 					char msg[64];
 					recv(Connection, msg, sizeof(msg), NULL);
@@ -522,16 +672,16 @@ void find_game(RenderWindow& window) {
 				}
 				else if (menuNum == 11) { // create room
 					indicator = "f";
-					field[M][N] = { 0 };
-					std::string msg_str = "newgame:";
+					std::string msg_str = "newgame:0|0|0|0|0|0|0|0";
 
-					for (int i = 0; i < M; i++) {
-						for (int j = 0; j < N; j++)
-						{
-							msg_str += std::to_string(field[i][j]);
-						}
-					}
 					send(Connection, msg_str.c_str(), msg_str.length(), NULL);
+
+					Texture t_newgame_back;
+					t_newgame_back.loadFromFile("images/newgame_back.png");
+					Sprite s_newgame_back(t_newgame_back);
+					s_newgame_back.setPosition(0, 0);
+					window.draw(s_newgame_back);
+					window.display();
 
 					char msg[64];
 					recv(Connection, msg, sizeof(msg), NULL);
@@ -540,10 +690,6 @@ void find_game(RenderWindow& window) {
 						start_game(window);
 						exit = 1;
 					}
-				}
-				if (msg_str == "start") {
-					start_game(window);
-					exit = 1;
 				}
 			}
 
@@ -622,7 +768,14 @@ void menu_shop(RenderWindow& window) {
 				Sprite s_texture(texture);
 				s_texture.setPosition(20, 43 + 40 * i);
 				sf::Text priceBox(price, font, 14);
-				priceBox.setFillColor(sf::Color::Yellow);
+
+				if (check_textures(link[12])) {
+					priceBox.setFillColor(sf::Color::Green);
+				}
+				else {
+					priceBox.setFillColor(sf::Color::Yellow);
+				}
+				
 				priceBox.setPosition(260, 43 + 40 * i);
 
 				RectangleShape line(Vector2f(320, 2.f));
@@ -651,7 +804,8 @@ void menu_shop(RenderWindow& window) {
 		if (IntRect(20, 270, 300, 40).contains(Mouse::getPosition(window))) { menuNum = 7; }
 		if (IntRect(20, 310, 300, 40).contains(Mouse::getPosition(window))) { menuNum = 8; }
 		if (IntRect(20, 350, 300, 40).contains(Mouse::getPosition(window))) { menuNum = 9; }
-		if (IntRect(90, 390, 140, 35).contains(Mouse::getPosition(window))) { menuNum = 10; }
+		if (IntRect(10, 390, 140, 35).contains(Mouse::getPosition(window))) { menuNum = 10; }
+		if (IntRect(170, 390, 140, 35).contains(Mouse::getPosition(window))) { menuNum = 11; }
 
 		if (Mouse::isButtonPressed(Mouse::Left)) {
 			if (menuNum == 1) {
@@ -700,7 +854,7 @@ void menu_shop(RenderWindow& window) {
 				y = 350;
 				textureNum = menuNum;
 			}
-			else if (menuNum == 10) {
+			else if (menuNum == 10) { // купить
 				std::cout << "menuNum = 10, userNum = " << textureNum << std::endl;
 				//std::string msg_str = "findgame:" + userNum;
 				//send(Connection, msg_str.c_str(), msg_str.length(), NULL);
@@ -711,6 +865,13 @@ void menu_shop(RenderWindow& window) {
 				//	start_game(window);
 				//	exit = 1;
 				//}
+			}
+			else if (menuNum == 11) { // установить
+				std::cout << "menuNum = 11, userNum = " << textureNum << std::endl;
+				if (check_textures(textureNum)) {
+					tetramino_texture = "tiles" + std::to_string(textureNum);
+				}
+				
 			}
 		}
 		window.display();
@@ -934,11 +1095,12 @@ bool logining(string login) {
 			else {
 				if (i == 1) { name = token; }
 				if (i == 2) { money = token; }
+				if (i == 3) { score = token; }
 			}
 			i++;
 			msg_str.erase(0, pos + sep.length());
 		}
-		score = msg_str;
+		user_textures = msg_str;
 
 		std::cout << "name: " << name << std::endl;
 		std::cout << "money: " << money << std::endl;

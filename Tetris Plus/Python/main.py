@@ -17,7 +17,7 @@ def autorization(user, swap):
 		password = msg[2]
 		user_param = check_user(login, password)
 		if user_param:
-			msg = 'success:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score'])
+			msg = 'success:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score']) + ":" + str(user_param['textures'])
 			msg = str(len(msg)) + msg
 			print(f'Login success: {msg}')
 			user.send(msg.encode('utf-8'))
@@ -31,7 +31,7 @@ def autorization(user, swap):
 		password = msg[2]
 		user_param = create_user(login, password)
 		if user_param:
-			msg = 'success:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score'])
+			msg = 'success:' + str(user_param['login']) + ":" + str(user_param['money']) + ":" + str(user_param['score']) + ":" + str(user_param['textures'])
 			msg = str(len(msg)) + msg
 			print(f'Login success: {msg}')
 			user.send(msg.encode('utf-8'))
